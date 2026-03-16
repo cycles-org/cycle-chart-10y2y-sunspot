@@ -10,7 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #0d0d14; color: #ccc;
+    html, body { height: 100%; background: #ffffff; color: #333;
       font-family: 'Inter', system-ui, sans-serif; }
     #root { padding: 20px 12px 12px; }
   </style>
@@ -46,10 +46,10 @@ const fmtYear = s => s ? s.slice(0,4) : "";
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload || !payload.length) return null;
   return React.createElement("div", {
-    style: { background:"rgba(12,12,22,0.95)", border:"1px solid #2a3050",
-      borderRadius:6, padding:"8px 14px", fontSize:12, color:"#ddd", lineHeight:1.8 }
+    style: { background:"rgba(255,255,255,0.97)", border:"1px solid #cccccc",
+      borderRadius:6, padding:"8px 14px", fontSize:12, color:"#333", lineHeight:1.8 }
   },
-    React.createElement("div", { style:{ fontWeight:600, marginBottom:2, color:"#99aacc" } }, fmtDate(label)),
+    React.createElement("div", { style:{ fontWeight:600, marginBottom:2, color:"#3355aa" } }, fmtDate(label)),
     payload.map((p, i) => p.value != null && React.createElement("div", { key:i, style:{ color:p.color } },
       p.name, ": ", React.createElement("strong", null,
         typeof p.value === "number" ? p.value.toFixed(p.name.startsWith("10Y") ? 3 : 1) : "—"
@@ -71,16 +71,16 @@ function CycleChart() {
   const ivl   = Math.floor(DATA.length / 14);
 
   return React.createElement("div", null,
-    React.createElement("h2", { style:{ textAlign:"center", fontSize:13, letterSpacing:1, color:"#7799bb", marginBottom:8 } },
+    React.createElement("h2", { style:{ textAlign:"center", fontSize:13, letterSpacing:1, color:"#334d80", marginBottom:8 } },
       "10Y\u20132Y SPREAD & COMPOSITE CYCLE [124 Month] \u00A0|\u00A0 SUNSPOT COUNT (+3yr shift, SC25 projection via spaceweatherlive)"
     ),
 
     /* ── TOP PANE ─────────────────────────────────────────────────────── */
     React.createElement(ResponsiveContainer, { width:"100%", height:320 },
       React.createElement(ComposedChart, { data:DATA, syncId:"main", margin:{ top:6,right:60,left:8,bottom:0 } },
-        React.createElement(CartesianGrid, { strokeDasharray:"3 3", stroke:"#1a1e30" }),
+        React.createElement(CartesianGrid, { strokeDasharray:"3 3", stroke:"#e8e8e8" }),
         React.createElement(XAxis, { dataKey:"date", tickFormatter:fmtYear, interval:ivl,
-          tick:{ fontSize:10, fill:"#445" }, tickLine:false }),
+          tick:{ fontSize:10, fill:"#888" }, tickLine:false }),
         React.createElement(YAxis, { yAxisId:"left", domain:vDom, tickCount:7,
           tick:{ fontSize:10, fill:"#4a9edd" }, tickLine:false,
           label:{ value:"Spread", angle:-90, position:"insideLeft", fill:"#4a9edd", fontSize:10, dx:-2 } }),
@@ -89,11 +89,11 @@ function CycleChart() {
           label:{ value:"Composite", angle:90, position:"insideRight", fill:"#cc9944", fontSize:10, dx:4 } }),
         React.createElement(Tooltip, { content: React.createElement(CustomTooltip,null) }),
         React.createElement(Legend, { wrapperStyle:{ fontSize:11, paddingTop:4 } }),
-        React.createElement(ReferenceLine, { yAxisId:"left", y:0, stroke:"#2a3550", strokeDasharray:"4 3" }),
+        React.createElement(ReferenceLine, { yAxisId:"left", y:0, stroke:"#cccccc", strokeDasharray:"4 3" }),
         ...RECESSIONS.map((r,i) => React.createElement(ReferenceArea, { key:i, yAxisId:"left",
-          x1:r.start, x2:r.end, fill:"#aaaaaa", fillOpacity:0.10, strokeOpacity:0 })),
+          x1:r.start, x2:r.end, fill:"#aaaaaa", fillOpacity:0.15, strokeOpacity:0 })),
         React.createElement(Line, { yAxisId:"left", type:"monotone", dataKey:"value_orig",
-          name:"10Y-2Y Original", stroke:"#556677", strokeWidth:1, strokeDasharray:"3 3",
+          name:"10Y-2Y Original", stroke:"#99aabc", strokeWidth:1, strokeDasharray:"3 3",
           dot:false, connectNulls:false, activeDot:{r:2} }),
         React.createElement(Line, { yAxisId:"left", type:"monotone", dataKey:"value",
           name:"10Y-2Y Value", stroke:"#4a9edd", strokeWidth:1.4, dot:false, connectNulls:true, activeDot:{r:3} }),
@@ -105,38 +105,38 @@ function CycleChart() {
     /* ── BOTTOM PANE ──────────────────────────────────────────────────── */
     React.createElement(ResponsiveContainer, { width:"100%", height:230 },
       React.createElement(ComposedChart, { data:DATA, syncId:"main", margin:{ top:4,right:60,left:8,bottom:30 } },
-        React.createElement(CartesianGrid, { strokeDasharray:"3 3", stroke:"#1a1e30" }),
+        React.createElement(CartesianGrid, { strokeDasharray:"3 3", stroke:"#e8e8e8" }),
         React.createElement(XAxis, { dataKey:"date", tickFormatter:fmtYear, interval:ivl,
-          tick:{ fontSize:10, fill:"#445" }, tickLine:false }),
+          tick:{ fontSize:10, fill:"#888" }, tickLine:false }),
         React.createElement(YAxis, { yAxisId:"left", domain:sDom, tickCount:6,
-          tick:{ fontSize:10, fill:"#f0c040" }, tickLine:false,
-          label:{ value:"Sunspot +3yr", angle:-90, position:"insideLeft", fill:"#f0c040", fontSize:10, dx:-2 } }),
+          tick:{ fontSize:10, fill:"#b08800" }, tickLine:false,
+          label:{ value:"Sunspot +3yr", angle:-90, position:"insideLeft", fill:"#b08800", fontSize:10, dx:-2 } }),
         React.createElement(YAxis, { yAxisId:"right", orientation:"right", domain:sDom, tickCount:6,
           tick:false, tickLine:false, axisLine:false, width:60 }),
         React.createElement(Tooltip, { content: React.createElement(CustomTooltip,null) }),
         React.createElement(Legend, { wrapperStyle:{ fontSize:11, paddingTop:4 } }),
-        React.createElement(ReferenceLine, { yAxisId:"left", y:0, stroke:"#2a3550", strokeDasharray:"4 3" }),
+        React.createElement(ReferenceLine, { yAxisId:"left", y:0, stroke:"#cccccc", strokeDasharray:"4 3" }),
         ...RECESSIONS.map((r,i) => React.createElement(ReferenceArea, { key:i, yAxisId:"left",
-          x1:r.start, x2:r.end, fill:"#aaaaaa", fillOpacity:0.10, strokeOpacity:0 })),
+          x1:r.start, x2:r.end, fill:"#aaaaaa", fillOpacity:0.15, strokeOpacity:0 })),
 
         /* actual historical sunspot, shifted +3y */
         React.createElement(Line, { yAxisId:"left", type:"monotone", dataKey:"ss_actual",
-          name:"Sunspot +3yr (actual)", stroke:"#f0c040", strokeWidth:1.4,
+          name:"Sunspot +3yr (actual)", stroke:"#b08800", strokeWidth:1.4,
           dot:false, connectNulls:false, activeDot:{r:3} }),
 
         /* SC25 projection from spaceweatherlive, shifted +3y */
         React.createElement(Line, { yAxisId:"left", type:"monotone", dataKey:"ss_proj",
-          name:"Sunspot +3yr (SC25 proj)", stroke:"#f0c040", strokeWidth:1.4, strokeDasharray:"5 3",
+          name:"Sunspot +3yr (SC25 proj)", stroke:"#b08800", strokeWidth:1.4, strokeDasharray:"5 3",
           dot:false, connectNulls:true, activeDot:{r:3} }),
 
         React.createElement(Brush, { dataKey:"date", height:24, travellerWidth:6,
-          stroke:"#2a3050", fill:"#111", tickFormatter:fmtYear,
+          stroke:"#cccccc", fill:"#f5f5f5", tickFormatter:fmtYear,
           onChange: r => r && r.startIndex!=null && setBrush(r),
           startIndex:brush.startIndex, endIndex:brush.endIndex })
       )
     ),
 
-    React.createElement("div", { style:{ textAlign:"center", fontSize:12, color:"#aabbcc", marginTop:6 } },
+    React.createElement("div", { style:{ textAlign:"center", fontSize:12, color:"#555555", marginTop:6 } },
       "Source: WDC-SILSO, Royal Observatory of Belgium \u00A0\xB7\u00A0 Projection: spaceweatherlive.com SC25 combined method, shifted +3yr \u00A0\xB7\u00A0 Drag brush to zoom", React.createElement("br",null), "Source/Idea by: Tom McClellan \u00A0|\u00A0 Plot & cycle analysis: Lars von Thienen"
     )
   );
